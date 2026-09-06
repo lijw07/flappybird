@@ -36,7 +36,7 @@ region_enabled = true
 
 [node name="GroundLayer" type="Parallax2D" parent="ScrollingBackdrop"]
 z_index = 1
-repeat_size = Vector2(64, 0)
+repeat_size = Vector2(768, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ScrollingBackdrop/GroundLayer"]
 texture_repeat = 2

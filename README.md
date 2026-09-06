@@ -29,6 +29,7 @@ assets/       CC0 sprites, sounds and font (see assets/CREDITS.md)
 scenes/       main.tscn (game), bird.tscn, pipe_pair.tscn, hud.tscn
 scripts/      one script per responsibility, no cross-cutting globals
 tests/        scripted autopilot playthrough used as a smoke test
+tools/        asset generation scripts (Python + Pillow)
 screenshots/  images for this README (ignored by the Godot importer)
 ```
 
@@ -72,6 +73,15 @@ godot --path . --headless --export-release Web build/web/index.html
 ```
 
 `build/` is git-ignored. Serve the `build/web` folder from any static host, or upload it to itch.io as an HTML5 project. To embed it in a page, point an `<iframe>` at `index.html`; the game fills whatever size the frame is given.
+
+## Regenerating the ground strip
+
+The ground is a 768-pixel strip assembled from the original 64-pixel tile's palette and wave pattern, with shadows, grass tufts and bushes scattered from a fixed seed so the scrolling repeat is not noticeable. Change `SEED` or the spacing constants in `tools/generate_ground.py` and run:
+
+```
+pip install pillow
+python tools/generate_ground.py
+```
 
 ## Credits
 
