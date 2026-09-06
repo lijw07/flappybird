@@ -1,0 +1,122 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+[ext_resource type="FontFile" path="res://assets/fonts/kenvector_future.ttf" id="2_font"]
+[ext_resource type="Texture2D" path="res://assets/sprites/medals/medal_bronze.png" id="3_bronze"]
+[ext_resource type="Texture2D" path="res://assets/sprites/medals/medal_silver.png" id="4_silver"]
+[ext_resource type="Texture2D" path="res://assets/sprites/medals/medal_gold.png" id="5_gold"]
+[ext_resource type="Texture2D" path="res://assets/sprites/medals/medal_platinum.png" id="6_platinum"]
+
+[sub_resource type="LabelSettings" id="score_text"]
+font = ExtResource("2_font")
+font_size = 20
+outline_size = 4
+outline_color = Color(0.13, 0.13, 0.2, 1)
+
+[sub_resource type="LabelSettings" id="title_text"]
+font = ExtResource("2_font")
+font_size = 14
+outline_size = 3
+outline_color = Color(0.13, 0.13, 0.2, 1)
+
+[sub_resource type="LabelSettings" id="body_text"]
+font = ExtResource("2_font")
+font_size = 8
+outline_size = 2
+outline_color = Color(0.13, 0.13, 0.2, 1)
+
+[node name="Hud" type="CanvasLayer"]
+script = ExtResource("1_hud")
+medal_icons = Dictionary[int, Texture2D]({
+1: ExtResource("3_bronze"),
+2: ExtResource("4_silver"),
+3: ExtResource("5_gold"),
+4: ExtResource("6_platinum")
+})
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 16.0
+offset_bottom = 44.0
+grow_horizontal = 2
+text = "0"
+label_settings = SubResource("score_text")
+horizontal_alignment = 1
+
+[node name="ReadyPanel" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="ReadyPanel"]
+layout_mode = 2
+text = "Get Ready!"
+label_settings = SubResource("title_text")
+horizontal_alignment = 1
+
+[node name="HintLabel" type="Label" parent="ReadyPanel"]
+layout_mode = 2
+text = "Tap or Space to flap"
+label_settings = SubResource("body_text")
+horizontal_alignment = 1
+
+[node name="GameOverPanel" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="GameOverPanel"]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("title_text")
+horizontal_alignment = 1
+
+[node name="MedalIcon" type="TextureRect" parent="GameOverPanel"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FinalScoreLabel" type="Label" parent="GameOverPanel"]
+layout_mode = 2
+text = "Score 0"
+label_settings = SubResource("body_text")
+horizontal_alignment = 1
+
+[node name="BestScoreLabel" type="Label" parent="GameOverPanel"]
+layout_mode = 2
+text = "Best 0"
+label_settings = SubResource("body_text")
+horizontal_alignment = 1
+
+[node name="RetryLabel" type="Label" parent="GameOverPanel"]
+layout_mode = 2
+text = "Tap to retry"
+label_settings = SubResource("body_text")
+horizontal_alignment = 1

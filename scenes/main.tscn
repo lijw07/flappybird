@@ -1,0 +1,89 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
+[ext_resource type="Script" path="res://scripts/scrolling_backdrop.gd" id="2_backdrop"]
+[ext_resource type="Texture2D" path="res://assets/sprites/background_day.png" id="3_day"]
+[ext_resource type="Texture2D" path="res://assets/sprites/background_night.png" id="4_night"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ground.png" id="5_ground"]
+[ext_resource type="Script" path="res://scripts/pipe_spawner.gd" id="6_spawner"]
+[ext_resource type="PackedScene" path="res://scenes/pipe_pair.tscn" id="7_pipe_pair"]
+[ext_resource type="PackedScene" path="res://scenes/bird.tscn" id="8_bird"]
+[ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="9_hud"]
+[ext_resource type="Script" path="res://scripts/sound_effects.gd" id="10_sound_effects"]
+[ext_resource type="AudioStream" path="res://assets/audio/flap.ogg" id="11_flap"]
+[ext_resource type="AudioStream" path="res://assets/audio/point.ogg" id="12_point"]
+[ext_resource type="AudioStream" path="res://assets/audio/hit.ogg" id="13_hit"]
+[ext_resource type="AudioStream" path="res://assets/audio/die.ogg" id="14_die"]
+
+[sub_resource type="RectangleShape2D" id="ground_shape"]
+size = Vector2(8192, 32)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="ScrollingBackdrop" type="Node2D" parent="."]
+script = ExtResource("2_backdrop")
+background_textures = Array[Texture2D]([ExtResource("3_day"), ExtResource("4_night")])
+
+[node name="BackgroundLayer" type="Parallax2D" parent="ScrollingBackdrop"]
+repeat_size = Vector2(256, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ScrollingBackdrop/BackgroundLayer"]
+texture_repeat = 2
+texture = ExtResource("3_day")
+centered = false
+region_enabled = true
+
+[node name="GroundLayer" type="Parallax2D" parent="ScrollingBackdrop"]
+z_index = 1
+repeat_size = Vector2(64, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ScrollingBackdrop/GroundLayer"]
+texture_repeat = 2
+position = Vector2(0, 224)
+texture = ExtResource("5_ground")
+centered = false
+region_enabled = true
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(0, 240)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+shape = SubResource("ground_shape")
+
+[node name="PipeSpawner" type="Node2D" parent="."]
+script = ExtResource("6_spawner")
+pipe_pair_scene = ExtResource("7_pipe_pair")
+
+[node name="SpawnTimer" type="Timer" parent="PipeSpawner"]
+
+[node name="Bird" parent="." instance=ExtResource("8_bird")]
+position = Vector2(40, 112)
+
+[node name="Hud" parent="." instance=ExtResource("9_hud")]
+
+[node name="SoundEffects" type="Node" parent="."]
+script = ExtResource("10_sound_effects")
+
+[node name="Flap" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("11_flap")
+
+[node name="Point" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("12_point")
+
+[node name="Hit" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("13_hit")
+
+[node name="Die" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("14_die")
+
+[node name="RestartDelay" type="Timer" parent="."]
+wait_time = 0.8
+one_shot = true
+
+[connection signal="timeout" from="PipeSpawner/SpawnTimer" to="PipeSpawner" method="_on_spawn_timer_timeout"]
+[connection signal="hit_obstacle" from="Bird" to="." method="_on_bird_hit_obstacle"]
+[connection signal="landed" from="Bird" to="." method="_on_bird_landed"]
+[connection signal="pipe_passed" from="PipeSpawner" to="." method="_on_pipe_spawner_pipe_passed"]

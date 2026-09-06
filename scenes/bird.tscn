@@ -1,0 +1,27 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/bird.gd" id="1_bird"]
+[ext_resource type="Texture2D" path="res://assets/sprites/birds/bird_yellow.png" id="2_yellow"]
+[ext_resource type="Texture2D" path="res://assets/sprites/birds/bird_blue.png" id="3_blue"]
+[ext_resource type="Texture2D" path="res://assets/sprites/birds/bird_red.png" id="4_red"]
+[ext_resource type="Texture2D" path="res://assets/sprites/birds/bird_green.png" id="5_green"]
+[ext_resource type="Texture2D" path="res://assets/sprites/birds/bird_brown.png" id="6_brown"]
+[ext_resource type="Texture2D" path="res://assets/sprites/birds/bird_gray.png" id="7_gray"]
+[ext_resource type="Texture2D" path="res://assets/sprites/birds/bird_purple.png" id="8_purple"]
+
+[sub_resource type="CircleShape2D" id="body_shape"]
+radius = 6.0
+
+[node name="Bird" type="CharacterBody2D"]
+z_index = 2
+collision_layer = 1
+collision_mask = 6
+script = ExtResource("1_bird")
+skins = Array[Texture2D]([ExtResource("2_yellow"), ExtResource("3_blue"), ExtResource("4_red"), ExtResource("5_green"), ExtResource("6_brown"), ExtResource("7_gray"), ExtResource("8_purple")])
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_yellow")
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("body_shape")
