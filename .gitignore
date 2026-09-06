@@ -1,19 +1,34 @@
-# Godot 4+ specific ignores
+# Godot 4 editor cache and imported resources
 .godot/
 .nomedia
+*.import.tmp
 
-# Godot-specific ignores
+# Godot 3 leftovers, in case the project is ever opened there
 .import/
+
+# Export artifacts and credentials
+build/
 export.cfg
 export_credentials.cfg
+*.pck
+*.wasm
 
-# Imported translations (automatically generated from CSV files)
+# Generated translations
 *.translation
 
-# Mono-specific ignores
+# Mono / C#
 .mono/
 data_*/
 mono_crash.*.json
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+
+# Operating system files
+.DS_Store
+Thumbs.db
 
 # Local scratch
 _to_delete/
